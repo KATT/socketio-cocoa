@@ -36,6 +36,8 @@
 }
 
 - (void)dealloc {
+  [_timeout invalidate];
+  [_timeout release];
   [_host release];
   [_queue release];
   [_webSocket release];
@@ -45,7 +47,7 @@
 }
 
 - (void)checkIfConnected {
-  if (!_isConnected) {
+  if (!_isConnected && _isConnecting) {
     [self disconnect];
     
     if (_tryAgainOnConnectTimeout) {
